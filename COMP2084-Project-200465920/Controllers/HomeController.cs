@@ -28,6 +28,13 @@ namespace COMP2084_Project_200465920.Controllers
             return View();
         }
 
+        // new method to load the /home/About view
+
+        public IActionResult About()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

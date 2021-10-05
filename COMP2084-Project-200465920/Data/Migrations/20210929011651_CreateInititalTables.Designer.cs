@@ -4,14 +4,16 @@ using COMP2084_Project_200465920.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace COMP2084_Project_200465920.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210929011651_CreateInititalTables")]
+    partial class CreateInititalTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -27,9 +29,7 @@ namespace COMP2084_Project_200465920.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("GenreId");
 
@@ -46,11 +46,11 @@ namespace COMP2084_Project_200465920.Data.Migrations
                     b.Property<int>("Episode")
                         .HasColumnType("int");
 
-                    b.Property<int>("GenreId")
+                    b.Property<int?>("GenreId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MediaType")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MediaType")
+                        .HasColumnType("int");
 
                     b.Property<string>("Poster")
                         .HasColumnType("nvarchar(max)");
@@ -79,7 +79,7 @@ namespace COMP2084_Project_200465920.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MediaId")
+                    b.Property<int?>("MediaId")
                         .HasColumnType("int");
 
                     b.Property<int>("Score")
@@ -105,7 +105,7 @@ namespace COMP2084_Project_200465920.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("MediaId")
+                    b.Property<int?>("MediaId")
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
@@ -325,9 +325,7 @@ namespace COMP2084_Project_200465920.Data.Migrations
                 {
                     b.HasOne("COMP2084_Project_200465920.Models.Genre", "Genre")
                         .WithMany("Medias")
-                        .HasForeignKey("GenreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("GenreId");
 
                     b.Navigation("Genre");
                 });
@@ -336,9 +334,7 @@ namespace COMP2084_Project_200465920.Data.Migrations
                 {
                     b.HasOne("COMP2084_Project_200465920.Models.Media", "Media")
                         .WithMany("Reviews")
-                        .HasForeignKey("MediaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MediaId");
 
                     b.Navigation("Media");
                 });
@@ -347,9 +343,7 @@ namespace COMP2084_Project_200465920.Data.Migrations
                 {
                     b.HasOne("COMP2084_Project_200465920.Models.Media", "Media")
                         .WithMany("WatchLists")
-                        .HasForeignKey("MediaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MediaId");
 
                     b.Navigation("Media");
                 });

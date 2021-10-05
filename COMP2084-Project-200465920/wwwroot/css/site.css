@@ -28,7 +28,7 @@ a {
     font-family: 'Montserrat', sans-serif;
 }
 .nav-link:hover {
-    background-color: #ffdc66;
+    color: #ffdc66;
 }
 
 /* Sticky footer styles
