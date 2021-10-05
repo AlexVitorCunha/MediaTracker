@@ -24,10 +24,17 @@ a {
   border-color: #1861ac;
 }
 
+.navbar-brand {
+    font-family: 'Montserrat', sans-serif;
+}
+.nav-link:hover {
+    background-color: #ffdc66;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 @media (min-width: 768px) {
   html {
