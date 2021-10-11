@@ -26,15 +26,21 @@
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Season)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Season)
+        <dd class="col-sm-10">
+            @if (Model.MediaType == "TV")
+            {
+                @Html.DisplayFor(model => model.Season)
+            }
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Episode)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Episode)
-        </dd>
+        <dd class="col-sm-10">
+            @if (Model.MediaType == "TV")
+            {
+                @Html.DisplayFor(model => model.Episode)
+            }
+            </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.ReleaseDate)
         </dt>

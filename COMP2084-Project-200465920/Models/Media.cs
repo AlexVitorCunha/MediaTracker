@@ -13,9 +13,10 @@ namespace COMP2084_Project_200465920.Models
         public int MediaId { get; set; }
         [Required()]
         public string Title { get; set; }
+        [Required()]
         [Display(Name = "Media Type")]
         public String MediaType { get; set; }
-        [Range(1, 100)]
+        [Range(0, 100)]
         public int Season { get; set; }
         [Range(0, 1000)]
         public int Episode { get; set; }

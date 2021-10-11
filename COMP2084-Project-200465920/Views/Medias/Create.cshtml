@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="MediaType" class="control-label"></label>
-                <select asp-for="MediaType" class="form-control" OnChange="blockFunction(value)">
+                <select asp-for="MediaType" class="form-control" id="mediaType" onchange="lockOptions()">
                     <option disabled selected value=""> -- select an option -- </option>
                     <option value="Movie">Movie</option>
                     <option value="TV">TV Show</option>
@@ -28,12 +28,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Season" class="control-label"></label>
-                <input asp-for="Season" class="form-control" />
+                <input asp-for="Season" class="form-control" id="season"/>
                 <span asp-validation-for="Season" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Episode" class="control-label"></label>
-                <input asp-for="Episode" class="form-control" />
+                <input asp-for="Episode" class="form-control" id="episode"/>
                 <span asp-validation-for="Episode" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" />
+                <input asp-for="Poster" class="form-control" type="file"/>
                 <span asp-validation-for="Poster" class="text-danger"></span>
             </div>
             <div class="form-group">

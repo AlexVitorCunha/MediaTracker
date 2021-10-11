@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using COMP2084_Project_200465920.Data;
 using COMP2084_Project_200465920.Models;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace COMP2084_Project_200465920.Controllers
 {
@@ -57,16 +59,42 @@ namespace COMP2084_Project_200465920.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MediaId,Title,MediaType,Season,Episode,ReleaseDate,GenreId,Poster")] Media media)
+        public async Task<IActionResult> Create([Bind("MediaId,Title,MediaType,Season,Episode,ReleaseDate,GenreId")] Media media, IFormFile Poster)
         {
             if (ModelState.IsValid)
             {
+                if(Poster != null)
+                {
+                    var fileName = UploadPoster(Poster);
+                    media.Poster = fileName;
+                }
                 _context.Add(media);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", media.GenreId);
             return View(media);
+        }
+
+        private string UploadPoster (IFormFile Photo)
+        {
+            //get temp location of uploaded photo
+            var filePath = Path.GetTempFileName();
+
+            var fileName = Guid.NewGuid() + "-" + Photo.FileName;
+
+            //set destination path dynamically so it works on any system
+            var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\photos\\posters\\" + fileName;
+
+            // actually execute the file copy now
+            using (var stream = new FileStream(uploadPath, FileMode.Create))
+            {
+                Photo.CopyTo(stream);
+            }
+
+            return fileName;
+
+
         }
 
         // GET: Medias/Edit/5
@@ -91,7 +119,7 @@ namespace COMP2084_Project_200465920.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MediaId,Title,MediaType,Season,Episode,ReleaseDate,GenreId,Poster")] Media media)
+        public async Task<IActionResult> Edit(int id, [Bind("MediaId,Title,MediaType,Season,Episode,ReleaseDate,GenreId")] Media media, IFormFile Poster)
         {
             if (id != media.MediaId)
             {
@@ -102,6 +130,11 @@ namespace COMP2084_Project_200465920.Controllers
             {
                 try
                 {
+                    if(Poster != null)
+                    {
+                        var fileName = UploadPoster(Poster);
+                        media.Poster = fileName;
+                    }
                     _context.Update(media);
                     await _context.SaveChangesAsync();
                 }

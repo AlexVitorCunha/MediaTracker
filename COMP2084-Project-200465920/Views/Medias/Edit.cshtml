@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="MediaId" />
             <div class="form-group">
@@ -20,17 +20,20 @@
             </div>
             <div class="form-group">
                 <label asp-for="MediaType" class="control-label"></label>
-                <select asp-for="MediaType" class="form-control"></select>
+                <select asp-for="MediaType" class="form-control" id="mediaType" onchange="lockOptions()" onload="lockOptions()">
+                    <option value="Movie">Movie</option>
+                    <option value="TV">TV Show</option>
+                </select>
                 <span asp-validation-for="MediaType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Season" class="control-label"></label>
-                <input asp-for="Season" class="form-control" />
+                <input asp-for="Season" class="form-control" id="season"/>
                 <span asp-validation-for="Season" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Episode" class="control-label"></label>
-                <input asp-for="Episode" class="form-control" />
+                <input asp-for="Episode" class="form-control" id="episode"/>
                 <span asp-validation-for="Episode" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -45,8 +48,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="Poster" class="control-label"></label>
-                <input asp-for="Poster" class="form-control" />
+                <input asp-for="Poster" class="form-control" type="file" />
                 <span asp-validation-for="Poster" class="text-danger"></span>
+                @if (Model.Poster != null)
+                {
+                    <img src="~/photos//posters//@Model.Poster" alt="Media Poster" class="poster"/>
+                }
+                else
+                {
+                    <img src="https://dummyimage.com/320x480" alt="Media Poster"/>
+                }
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

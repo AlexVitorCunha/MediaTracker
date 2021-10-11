@@ -27,9 +27,7 @@ a {
 .navbar-brand {
     font-family: 'Montserrat', sans-serif;
 }
-.nav-link:hover {
-    color: #ffdc66;
-}
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -75,4 +73,12 @@ body {
   width: 100%;
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
+}
+
+.poster{
+    width:320px;
+}
+
+.thumb {
+    width: 100px;
 }
