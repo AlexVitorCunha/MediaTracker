@@ -4,81 +4,84 @@
     ViewData["Title"] = "Media";
 }
 
-<h1>Medias</h1>
+<h1>Media List</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table sortable">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.MediaType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Season)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Episode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Genre)
-            </th>
-            <th class="sorttable_nosort">
-            </th>
-            <th class="sorttable_nosort"></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MediaType)
-            </td>
-            <td>
-                @if (item.MediaType == "TV")
-                {
-                    @Html.DisplayFor(modelItem => item.Season)
-                }
-            </td>
-            <td>
-                @if (item.MediaType == "TV")
-                {
-                    @Html.DisplayFor(modelItem => item.Episode)
-                }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReleaseDate)
-            </td>
-            <td>
-                @if (item.Poster != null)
-                {
-                    <img src="~/photos/posters/@item.Poster" alt="Product Photo" class="thumb" />
-                }
-                else
-                {
-                    <img src="https://dummyimage.com/320x480" alt="media poster"  class="thumb"/>
-                }
+<div class="table-responsive mt-4 ms-4 me-4">
+    <table class="table sortable table-striped table-bordered fs-5">
+        <thead>
+            <tr>
+                <th>
+                    <a href="#">@Html.DisplayNameFor(model => model.Title)</a>
+                </th>
+                <th align="center">
+                    <a href="#">@Html.DisplayNameFor(model => model.MediaType)</a>
+                </th>
+                <th align="center">
+                    <a href="#">@Html.DisplayNameFor(model => model.Season)</a>
+                </th>
+                <th align="center">
+                    <a href="#">@Html.DisplayNameFor(model => model.Episode)</a>
+                </th>
+                <th align="center">
+                    <a href="#">@Html.DisplayNameFor(model => model.ReleaseDate)</a>
+                </th>
+                <th align="center">
+                    <a href="#">@Html.DisplayNameFor(model => model.Genre)</a>
+                </th>
+                <th class="sorttable_nosort">
+                </th>
+                <th class="sorttable_nosort"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MediaType)
+                    </td>
+                    <td>
+                        @if (item.MediaType == "TV")
+                        {
+                            @Html.DisplayFor(modelItem => item.Season)
+                        }
+                    </td>
+                    <td>
+                        @if (item.MediaType == "TV")
+                        {
+                            @Html.DisplayFor(modelItem => item.Episode)
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Genre.Name)
+                    </td>
+                    <td>
+                        @if (item.Poster != null)
+                        {
+                            <img src="~/photos/posters/@item.Poster" alt="Product Photo" class="thumb" />
+                        }
+                        else
+                        {
+                            <img src="https://dummyimage.com/320x480" alt="media poster" class="thumb" />
+                        }
 
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Genre.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.MediaId">Edit</a> |
+                        <a asp-action="Details" asp-route-id="@item.MediaId">Details</a> |
+                        <a asp-action="Delete" asp-route-id="@item.MediaId">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

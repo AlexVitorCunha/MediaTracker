@@ -25,6 +25,7 @@ namespace COMP2084_Project_200465920.Models
         public DateTime ReleaseDate { get; set; }
         [Required()]
         [Range(0, 9999)]
+        [Display(Name = "Genre")]
         public int GenreId { get; set; }
         public string Poster { get; set; }
         public Genre Genre { get; set; }
