@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using COMP2084_Project_200465920.Data;
 using COMP2084_Project_200465920.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace COMP2084_Project_200465920.Controllers
 {
+    [Authorize(Roles ="Administrator")]
     public class WatchListsController : Controller
     {
         private readonly ApplicationDbContext _context;

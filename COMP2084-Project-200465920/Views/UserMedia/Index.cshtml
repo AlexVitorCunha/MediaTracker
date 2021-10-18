@@ -1,0 +1,21 @@
+﻿@model IEnumerable<COMP2084_Project_200465920.Models.Genre>
+
+
+@{ 
+    ViewData["Title"] = "Check new releases";
+}
+<h1>Available Media</h1>
+<section class="row card-group">
+    @foreach(var c in Model)
+            {
+                <div class="col-sm-6 col-lg-4 mb-3">
+                    <div class="card mb-4 text-center h-100">
+                        <div class="card-body">
+                            <a asp-controller="UserMedia" asp-action="BrowseGenre" asp-route-categoryid="@c.GenreId">
+                                @c.Name
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+</section>
