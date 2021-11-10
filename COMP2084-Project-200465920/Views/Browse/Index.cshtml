@@ -11,7 +11,7 @@
                 <div class="col-sm-6 col-lg-4 mb-3">
                     <div class="card mb-4 text-center h-100">
                         <div class="card-body">
-                            <a asp-controller="UserMedia" asp-action="BrowseGenre" asp-route-categoryid="@c.GenreId">
+                            <a asp-controller="Browse" asp-action="BrowseByGenre" asp-route-id="@c.GenreId">
                                 @c.Name
                             </a>
                         </div>

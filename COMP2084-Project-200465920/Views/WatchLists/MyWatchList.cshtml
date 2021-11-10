@@ -1,0 +1,49 @@
+﻿@model IEnumerable<COMP2084_Project_200465920.Models.WatchList>
+
+@{ ViewData["Title"] = "Your WatchList";}
+
+<h1>Your WatchList</h1>
+
+<table class="table table-striped table-hover">
+    <thead>
+        <tr>
+            <td>Media</td>
+            <td></td>
+            <td>Season/ Episode</td>
+            <td>Release Date</td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var media in Model)
+        {
+            <tr>
+                <td>
+                    @media.Media.Title
+                </td>
+                <td>
+                    @if (media.Media.Poster != null)
+                    {
+                        <img src="~/photos/posters/@media.Media.Poster" alt="Media poster" class="thumb" />
+                    }
+                    else
+                    {
+                        <img src="https://dummyimage.com/320x480" alt="Media poster" class="thumb" />
+                    }
+                </td>
+                <td>
+                    S: @media.Media.Season E: @media.Media.Episode
+                </td>
+                <td>
+                    @media.Media.ReleaseDate
+                </td>
+                <td>
+                    <a asp-controller="Shop" asp-action="RemoveFromWatchList" asp-route-id="@media.MediaId"
+                       onclick="return confirmDelete();">
+                        Remove media
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

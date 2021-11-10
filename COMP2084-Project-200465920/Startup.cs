@@ -48,11 +48,14 @@ namespace COMP2084_Project_200465920
                     options.ClientId = googleAuth["ClientId"];
                     options.ClientSecret = googleAuth["ClientSecret"];
                 });
+            //session support
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseSession();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

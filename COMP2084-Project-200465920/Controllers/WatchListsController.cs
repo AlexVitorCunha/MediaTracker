@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using COMP2084_Project_200465920.Data;
 using COMP2084_Project_200465920.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace COMP2084_Project_200465920.Controllers
 {
-    [Authorize(Roles ="Administrator")]
+    [Authorize]
     public class WatchListsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -151,5 +152,70 @@ namespace COMP2084_Project_200465920.Controllers
         {
             return _context.WatchLists.Any(e => e.WatchListId == id);
         }
+
+        // POST: WatchLists/AddMedia
+
+        [HttpPost]
+        public IActionResult AddMedia(int MediaId, bool Watched)
+        {
+            //set UserId to WatchList item
+            var userId = GetUserId();
+            if(userId == "")
+            {
+                return View("/Identity/Account/Login");
+            }
+            else
+            {
+                var media = _context.WatchLists
+                    .SingleOrDefault(m => m.MediaId == MediaId && m.UserId == userId);
+                if(media == null)
+                {
+                    media = new WatchList
+                    {
+                        MediaId = MediaId,
+                        UserId = userId,
+                        Watched = Watched
+                    };
+                    //save to WatchLists table in db
+                    _context.WatchLists.Add(media);
+                }
+                _context.SaveChanges();
+                //Load personal WatchList
+                return RedirectToAction("MyWatchList");
+            }
+        }
+
+        private string GetUserId()
+        {
+            // check session for an existing UserId for the user's cart
+            if (HttpContext.Session.GetString("UserId") == null)
+            {
+                // this is user's 1st cart item
+                var userId = "";
+                if (User.Identity.IsAuthenticated)
+                {
+                    //user has logged in; use email
+                    userId = User.Identity.Name;
+                }
+
+                // store userId in a session var
+                HttpContext.Session.SetString("UserId", userId);
+            }
+
+            return HttpContext.Session.GetString("UserId");
+        }
+
+        // GET: /WatchLists/MyWatchList/
+        public IActionResult MyWatchList()
+        {
+            // identity the user from the session var
+            var userId = HttpContext.Session.GetString("UserId");
+            //load media for this user from the db for display
+            var medias = _context.WatchLists
+                .Include(w => w.Media)
+                .Where(m => m.UserId == userId).ToList();
+            return View(medias);
+        }
+
     }
 }

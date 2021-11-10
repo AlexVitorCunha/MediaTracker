@@ -1,0 +1,39 @@
+﻿@model IEnumerable<COMP2084_Project_200465920.Models.Media>
+
+@{ ViewData["Title"] = "Browse for media";}
+
+<h1>Browse for @ViewBag.Genre</h1>
+
+<section class="row card-group">
+    @foreach (var m in Model)
+    {
+        <div class="clo-sm-6 col-lg-4 mb-3">
+            <div class="card mb-3 text-center h-100">
+                <div class="card-body">
+                    <h5>@m.Title</h5>
+                    @if (m.MediaType == "TV")
+                    {
+                        <h6>Season: @m.Season Episode: @m.Episode</h6>
+                    }
+                    else
+                    { <h6>Movie</h6>}
+                        
+                    @if (m.Poster != null)
+                    {
+                        <img src="~/photos/posters/@m.Poster" alt="Media poster" class="thumb" />
+                    }
+                    else
+                    {
+                        <img src="https://dummyimage.com/320x480" alt="Media poster" class="thumb" />
+                    }
+                    <form method="post" action="/WatchLists/AddMedia">
+                        <input type="checkbox" class="check-box" name="Watched" value="true">
+                        <input type="hidden" name="MediaId" value="@m.MediaId" />
+                        <button class="btn btn-primary">Add to Watchlist</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    }
+</section>
