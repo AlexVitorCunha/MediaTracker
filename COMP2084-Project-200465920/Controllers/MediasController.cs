@@ -39,12 +39,17 @@ namespace COMP2084_Project_200465920.Controllers
             var media = await _context.Medias
                 .Include(m => m.Genre)
                 .FirstOrDefaultAsync(m => m.MediaId == id);
+
+            var reviews = _context.Reviews
+                .Where(r => r.MediaId == id);
             if (media == null)
             {
                 return NotFound();
             }
 
-            return View(media);
+            var tuple = new Tuple<Media, IEnumerable<Review>>(media, reviews);
+
+            return View(tuple);
         }
 
         // GET: Medias/Create
@@ -119,7 +124,7 @@ namespace COMP2084_Project_200465920.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MediaId,Title,MediaType,Season,Episode,ReleaseDate,GenreId")] Media media, IFormFile Poster)
+        public async Task<IActionResult> Edit(int id, [Bind("MediaId,Title,MediaType,Season,Episode,ReleaseDate,GenreId")] Media media, IFormFile Poster, string CurrentPoster)
         {
             if (id != media.MediaId)
             {
@@ -134,6 +139,11 @@ namespace COMP2084_Project_200465920.Controllers
                     {
                         var fileName = UploadPoster(Poster);
                         media.Poster = fileName;
+                    }
+                    else
+                    {
+                        //keep existing poster if no new photo is uploaded
+                        media.Poster = CurrentPoster;
                     }
                     _context.Update(media);
                     await _context.SaveChangesAsync();

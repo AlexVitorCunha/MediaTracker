@@ -209,12 +209,21 @@ namespace COMP2084_Project_200465920.Controllers
         public IActionResult MyWatchList()
         {
             // identity the user from the session var
-            var userId = HttpContext.Session.GetString("UserId");
+            var userId = GetUserId();
             //load media for this user from the db for display
             var medias = _context.WatchLists
                 .Include(w => w.Media)
                 .Where(m => m.UserId == userId).ToList();
             return View(medias);
+        }
+
+        //GET: /WatchLists/RemoveFromWatchList/
+        public IActionResult RemoveFromWatchList(int id)
+        {
+            var media = _context.WatchLists.Find(id);
+            _context.WatchLists.Remove(media);
+            _context.SaveChanges();
+            return RedirectToAction("MyWatchList");
         }
 
     }

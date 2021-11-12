@@ -10,14 +10,18 @@
         <div class="clo-sm-6 col-lg-4 mb-3">
             <div class="card mb-3 text-center h-100">
                 <div class="card-body">
-                    <h5>@m.Title</h5>
+                    <h5>
+                        <a asp-controller="Medias" asp-action="Details" asp-route-id="@m.MediaId">
+                            @m.Title
+                        </a>
+                    </h5>
                     @if (m.MediaType == "TV")
                     {
                         <h6>Season: @m.Season Episode: @m.Episode</h6>
                     }
                     else
                     { <h6>Movie</h6>}
-                        
+
                     @if (m.Poster != null)
                     {
                         <img src="~/photos/posters/@m.Poster" alt="Media poster" class="thumb" />
@@ -27,9 +31,10 @@
                         <img src="https://dummyimage.com/320x480" alt="Media poster" class="thumb" />
                     }
                     <form method="post" action="/WatchLists/AddMedia">
-                        <input type="checkbox" class="check-box" name="Watched" value="true">
-                        <input type="hidden" name="MediaId" value="@m.MediaId" />
-                        <button class="btn btn-primary">Add to Watchlist</button>
+                       <label for="Watched"> Watched: </label>
+                       <input type="checkbox" class="check-box" id="Watched" name="Watched" value="true">
+                       <input type="hidden" name="MediaId" value="@m.MediaId" /><br />
+                       <button class="btn btn-primary">Add to Watchlist</button>
                     </form>
                 </div>
 

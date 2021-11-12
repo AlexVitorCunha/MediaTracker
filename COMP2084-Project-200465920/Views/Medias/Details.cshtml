@@ -1,62 +1,63 @@
-﻿@model COMP2084_Project_200465920.Models.Media
+﻿
+@model Tuple<COMP2084_Project_200465920.Models.Media, IEnumerable<COMP2084_Project_200465920.Models.Review>>
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1 class="text-center mt-5">@Html.DisplayFor(model => model.Title)</h1>
+<h1 class="text-center mt-5">@Html.DisplayFor(tuple => tuple.Item1.Title)</h1>
 
 <div class="row justify-content-center mb-5">
     <hr />
     <dl class="col-12 col-md-6">
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Title)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Title)
+            @Html.DisplayFor(tuple => tuple.Item1.Title)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.MediaType)
+            @Html.DisplayNameFor(tuple => tuple.Item1.MediaType)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.MediaType)
+            @Html.DisplayFor(tuple => tuple.Item1.MediaType)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Season)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Season)
         </dt>
         <dd class="col-sm-10">
-            @if (Model.MediaType == "TV")
+            @if (Model.Item1.MediaType == "TV")
             {
-                @Html.DisplayFor(model => model.Season)
+                @Html.DisplayFor(tuple => tuple.Item1.Season)
             }
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Episode)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Episode)
         </dt>
         <dd class="col-sm-10">
-            @if (Model.MediaType == "TV")
+            @if (Model.Item1.MediaType == "TV")
             {
-                @Html.DisplayFor(model => model.Episode)
+                @Html.DisplayFor(tuple => tuple.Item1.Episode)
             }
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.ReleaseDate)
+            @Html.DisplayNameFor(tuple => tuple.Item1.ReleaseDate)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.ReleaseDate)
+            @Html.DisplayFor(tuple => tuple.Item1.ReleaseDate)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Genre)
+            @Html.DisplayNameFor(tuple => tuple.Item1.Genre)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Genre.Name)
+            @Html.DisplayFor(tuple => tuple.Item1.Genre.Name)
         </dd>
     </dl>
     <dl class="col-12 col-sm-3 mb-5">
         <dd class="col-sm-10">
-            @if (Model.Poster != null)
+            @if (Model.Item1.Poster != null)
             {
-                <img src="~/photos//posters//@Model.Poster" alt="Media Poster" class="poster card-img-top" />
+                <img src="~/photos//posters//@Model.Item1.Poster" alt="Media Poster" class="poster card-img-top" />
             }
             else
             {
@@ -66,6 +67,26 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.MediaId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a asp-action="Edit" asp-route-id="@Model.Item1.MediaId">Edit</a>
+    }
 </div>
+<h2>Add your review</h2>
+<form method="post" action="/Reviews/AddReview">
+    <label for="Score"> Score: </label>
+    <input type="number" id="Score" name="Score" min="0" max="10" required>
+    <input type="hidden" name="MediaId" value="@Model.Item1.MediaId" /><br />
+    <label for="Text"> Write your review: </label><br />
+    <textarea name="Text"></textarea><br />
+    <button class="btn btn-primary">Add Review</button>
+</form>
+
+<h2>Users reviews</h2>
+@foreach (var review in Model.Item2)
+ {
+<p>@Html.DisplayFor(modelreview => review.UserId)</p>
+<p> @Html.DisplayFor(modelreview => review.Score)</p>
+<p>@Html.DisplayFor(modelreview => review.Text)</p>
+ }
+

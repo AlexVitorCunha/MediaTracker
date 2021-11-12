@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using COMP2084_Project_200465920.Data;
 using COMP2084_Project_200465920.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace COMP2084_Project_200465920.Controllers
 {
@@ -148,6 +149,59 @@ namespace COMP2084_Project_200465920.Controllers
         private bool ReviewExists(int id)
         {
             return _context.Reviews.Any(e => e.ReviewId == id);
+        }
+
+        public IActionResult AddReview(int MediaId, int Score, string Text)
+        {
+            var userId = GetUserId();
+
+            var review = _context.Reviews
+                .SingleOrDefault(r => r.MediaId == MediaId && r.UserId == userId);
+
+            if (review != null)
+            {
+                //update
+                review.Score = Score;
+                review.Text = Text;
+            }
+            else
+            {
+                //insert
+                review = new Review
+                {
+                    Score = Score,
+                    MediaId = MediaId,
+                    Text = Text,
+                    UserId = userId
+                };
+
+                _context.Reviews.Add(review);
+            }
+
+            _context.SaveChanges();
+
+            //go back to media details
+            return RedirectToAction("Details", "Medias", new {id = MediaId });
+        }
+
+        private string GetUserId()
+        {
+            // check session for an existing UserId for the user's cart
+            if (HttpContext.Session.GetString("UserId") == null)
+            {
+                // this is user's 1st cart item
+                var userId = "";
+                if (User.Identity.IsAuthenticated)
+                {
+                    //user has logged in; use email
+                    userId = User.Identity.Name;
+                }
+
+                // store userId in a session var
+                HttpContext.Session.SetString("UserId", userId);
+            }
+
+            return HttpContext.Session.GetString("UserId");
         }
     }
 }
