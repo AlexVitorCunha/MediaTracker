@@ -1,5 +1,4 @@
-﻿
-@model Tuple<COMP2084_Project_200465920.Models.Media, IEnumerable<COMP2084_Project_200465920.Models.Review>>
+﻿@model Tuple<COMP2084_Project_200465920.Models.Media, IEnumerable<COMP2084_Project_200465920.Models.Review>>
 
 @{
     ViewData["Title"] = "Details";
@@ -66,27 +65,38 @@
         </dd>
     </dl>
 </div>
-<div>
+<div class="text-center">
     @if (User.Identity.IsAuthenticated)
     {
         <a asp-action="Edit" asp-route-id="@Model.Item1.MediaId">Edit</a>
     }
 </div>
-<h2>Add your review</h2>
-<form method="post" action="/Reviews/AddReview">
-    <label for="Score"> Score: </label>
-    <input type="number" id="Score" name="Score" min="0" max="10" required>
-    <input type="hidden" name="MediaId" value="@Model.Item1.MediaId" /><br />
-    <label for="Text"> Write your review: </label><br />
-    <textarea name="Text"></textarea><br />
-    <button class="btn btn-primary">Add Review</button>
+<h2 class="text-center mt-5">Add your review</h2>
+<form method="post" class="row justify-content-center mb-5" action="/Reviews/AddReview">
+    <div class="col-sm-7">
+        <label for="Score" class="form-label"> Rating: </label>
+        <input type="number" class="form-control" id="Score" name="Score" min="0" max="10" required>
+    </div>
+    <div class="col-sm-7">
+        <label for="Text" class="form-label"> Write your review: </label>
+        <textarea name="Text" class="form-control"></textarea><br />
+    </div>
+    <input type="hidden" name="MediaId" value="@Model.Item1.MediaId" />
+    <button class="btn btn-primary col-sm-7">Add Review</button>
 </form>
 
-<h2>Users reviews</h2>
-@foreach (var review in Model.Item2)
- {
-<p>@Html.DisplayFor(modelreview => review.UserId)</p>
-<p> @Html.DisplayFor(modelreview => review.Score)</p>
-<p>@Html.DisplayFor(modelreview => review.Text)</p>
- }
-
+<h2 class="text-center mt-5">Users reviews</h2>
+<section class="row card-group">
+    @foreach (var review in Model.Item2)
+    {
+    <div class="col-sm-6 col-lg-4 mb-3">
+        <div class="card mb-3 text-center h-100">
+            <h5 class="card-header">Username: @Html.DisplayFor(modelreview => review.UserId)</h5>
+            <div class="card-body">
+                <p class="card-title"> Rating: @Html.DisplayFor(modelreview => review.Score)/10</p>
+                <p class="card-text">Review: @Html.DisplayFor(modelreview => review.Text)</p>
+            </div>
+        </div>
+    </div>
+     }
+</section>

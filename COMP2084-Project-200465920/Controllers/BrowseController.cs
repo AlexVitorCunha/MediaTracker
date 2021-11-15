@@ -1,4 +1,6 @@
 ﻿using COMP2084_Project_200465920.Data;
+using COMP2084_Project_200465920.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -33,8 +35,31 @@ namespace COMP2084_Project_200465920.Controllers
             var medias = _context.Medias.Where(m => m.GenreId == id)
                 .OrderBy(m => m.Title).ToList();
             var genre = _context.Genres.Find(id);
+            var userId = GetUserId();
+            var watchList = _context.WatchLists.Where(u => u.UserId == userId);
+            var tuple = new Tuple<IEnumerable<Media>, IEnumerable<WatchList>>(medias, watchList);
             ViewBag.Genre = genre.Name;
             return View(medias);
-        } 
+        }
+
+        private string GetUserId()
+        {
+            // check session for an existing UserId for the user's cart
+            if (HttpContext.Session.GetString("UserId") == null)
+            {
+                // this is user's 1st cart item
+                var userId = "";
+                if (User.Identity.IsAuthenticated)
+                {
+                    //user has logged in; use email
+                    userId = User.Identity.Name;
+                }
+
+                // store userId in a session var
+                HttpContext.Session.SetString("UserId", userId);
+            }
+
+            return HttpContext.Session.GetString("UserId");
+        }
     }
 }
