@@ -32,11 +32,11 @@ namespace COMP2084_Project_200465920.Controllers
         public IActionResult BrowseByGenre(int id)
         {
             // get media in selected genre
+            var userId = GetUserId();
+            var watchList = _context.WatchLists.Where(u => u.UserId == userId);
             var medias = _context.Medias.Where(m => m.GenreId == id)
                 .OrderBy(m => m.Title).ToList();
             var genre = _context.Genres.Find(id);
-            var userId = GetUserId();
-            var watchList = _context.WatchLists.Where(u => u.UserId == userId);
             var tuple = new Tuple<IEnumerable<Media>, IEnumerable<WatchList>>(medias, watchList);
             ViewBag.Genre = genre.Name;
             return View(medias);

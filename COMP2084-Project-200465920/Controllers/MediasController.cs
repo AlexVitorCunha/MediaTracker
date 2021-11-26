@@ -56,7 +56,7 @@ namespace COMP2084_Project_200465920.Controllers
         public IActionResult Create()
         {
             ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name");
-            return View();
+            return View("Create");
         }
 
         // POST: Medias/Create
