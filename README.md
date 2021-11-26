@@ -21,5 +21,19 @@ To launch this application, follow the link https://themediatracker.azurewebsite
 ## Layout
 > This application uses custom layout using [Bootswatch's](https://bootswatch.com/united/) personalized theme "united". Personalized fonts for the header obtained through [google fonts](https://fonts.google.com). Favicon generated from [Favicon](https://favicon.io/) and icon from [Flaticon](https://www.flaticon.com).
 
+## Login
+People can register and login to the application to be able to add media to their watchlist and write reviews. People can login using the application login or using their google account. There are 2 level of logins, Administrator and Customer, and each one of them has a different access level.
+
+## Media Page
+Any user can access the media page, see details and reviews about each of them. When they try to add a media to their watchlist they are redirected to the login page.
+
+## Media Details
+Anyone can access any media details, including the current reviews, but only logged in users are able to see and add their own reviews.
+
+## Watchlist tab
+Only registered users can access the watchlist tab to see what they added to their personal watchlist.
+
+## Genres tab
+The genres tab is only availabe for Administrator users to manage them. 
 
 
