@@ -10,11 +10,10 @@ using System.Collections.Generic;
 namespace COMP2084_Project_200465920Tests
 {
     [TestClass]
-    public class MediasControllerTest
+    public class MediasControllerTests
     {
         private ApplicationDbContext _context;
         MediasController controller;
-        List<Genre> genres = new List<Genre>();
 
 
         // runs automatically before each test
@@ -28,28 +27,34 @@ namespace COMP2084_Project_200465920Tests
             _context = new ApplicationDbContext(options);
 
             // populate db w/mock data
-            genres.Add(new Genre
+            _context.Genres.Add(new Genre
             {
                 GenreId = 20,
                 Name = "Horror"
             });
 
-            genres.Add(new Genre
+            _context.Genres.Add(new Genre
             {
                 GenreId = 55,
                 Name = "Comedy"
             });
+            _context.Genres.Add(new Genre
+            {
+                GenreId = 33,
+                Name = "Drama"
+            });
+            _context.SaveChanges();
 
             //instantiate contoller w/db dependency
             controller = new MediasController(_context);
         }
 
-
+        #region Create(GET)
+        // Create (GET)
         [TestMethod]
         public void CreateLoadsCreateView()
         {
-            // arrange – done in TestInitialize instead
-
+            
             // act – execute the method
             var result = (ViewResult)controller.Create();
 
@@ -62,8 +67,14 @@ namespace COMP2084_Project_200465920Tests
         public void CreateLoadsGenres()
         {
 
+            // act
+            var result = (ViewResult)controller.Create();
+            var viewData = result.ViewData;
 
-            //Assert.AreEqual("something", result.ViewData["GenreId"]);
+            // assert
+            Assert.IsNotNull(viewData["GenreId"]);
         }
-        }
+        #endregion
+    }
+
 }
