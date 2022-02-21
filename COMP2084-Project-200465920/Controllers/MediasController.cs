@@ -78,7 +78,7 @@ namespace COMP2084_Project_200465920.Controllers
                 return RedirectToAction(nameof(Index));
             }
             ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", media.GenreId);
-            return View(media);
+            return View("Create",media);
         }
 
         private string UploadPoster (IFormFile Photo)
@@ -107,16 +107,16 @@ namespace COMP2084_Project_200465920.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("404");
             }
 
             var media = await _context.Medias.FindAsync(id);
             if (media == null)
             {
-                return NotFound();
+                return View("404");
             }
             ViewData["GenreId"] = new SelectList(_context.Genres, "GenreId", "Name", media.GenreId);
-            return View(media);
+            return View("Edit",media);
         }
 
         // POST: Medias/Edit/5
@@ -128,7 +128,7 @@ namespace COMP2084_Project_200465920.Controllers
         {
             if (id != media.MediaId)
             {
-                return NotFound();
+                return View("404");
             }
 
             if (ModelState.IsValid)
@@ -152,7 +152,7 @@ namespace COMP2084_Project_200465920.Controllers
                 {
                     if (!MediaExists(media.MediaId))
                     {
-                        return NotFound();
+                        return View("404");
                     }
                     else
                     {
@@ -170,7 +170,7 @@ namespace COMP2084_Project_200465920.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("404");
             }
 
             var media = await _context.Medias
@@ -178,10 +178,10 @@ namespace COMP2084_Project_200465920.Controllers
                 .FirstOrDefaultAsync(m => m.MediaId == id);
             if (media == null)
             {
-                return NotFound();
+                return View("404");
             }
 
-            return View(media);
+            return View("Delete", media);
         }
 
         // POST: Medias/Delete/5
